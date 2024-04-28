@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "2f954007-46ee-49c9-afb9-f56f8610c214",
+		"name": "Testing CRUD Operations Endpoints",
+		"description": "## API Testing Guide\n\n### Overview\n\nWelcome to the API testing guide for this collection. This guide provides step-by-step instructions for testing the API endpoints using Postman.\n\n### Steps for Testing APIs\n\n1. **Set Variables**: In the variables section of the collection ensure the base url is setup correctly. The default value is [http://localhost:5000](http://localhost:5000), therefore ensure that the node server is serving at that url.\n2. **Explore Collection Structure**: Familiarize yourself with the structure of the collection. Organize requests into folders based on functionality or endpoints.\n    \n\n### Test Individual Endpoints\n\n#### Post Request\n\n- **Route**: `/entity`\n- **Request Body** (JSON):\n    \n    ``` json\n      {\n          \"emp_name\": \"John Doe\",\n          \"mobile\": \"1234567890\",\n          \"email\": \"john.doe@example.com\",\n          \"salary\": 50000,\n          \"city\": \"New York\",\n          \"country\": \"USA\",\n          \"department\": \"IT\",\n          \"role\": \"Software Engineer\"\n      }\n    \n     ```\n    \n- **Action**: Provide the input data in the request body and execute the request. Verify the response.\n    \n\n#### Get, Put, Delete Request\n\n- **Route**: `/entity/:id`\n- **URL Parameters**:\n    - `id`: Replace with the specific ID of the entity you want to retrieve.\n- **Action**:\n    - **GET Request**: Click on the request, review the URL and parameters, then click \"Send\" to execute the request. Review the response.\n    - **PUT Request**: Provide the input data in the request body (same format as above). The number of keys can be varied to make changes to specific fields only.\n    - **DELETE Request**: Click on the request to execute it. No input data is required. Verify the response.\n\n### Testing Guidelines:\n\n#### Test with Valid Inputs:\n\n- Ensure that endpoints return expected responses when provided with valid inputs.\n    \n\n#### Test with Invalid Inputs:\n\n- Verify that appropriate error responses are returned when endpoints receive invalid inputs.\n    \n\n#### Test Edge Cases:\n\n- Test boundary values, null values, and special characters in input data.\n- Ensure the API handles these cases gracefully.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34247902"
+	},
+	"item": [
+		{
+			"name": "Post data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emp_name\": \"John Doe\",\n    \"mobile\": \"1234567890\",\n    \"email\": \"john.doe@example.com\",\n    \"salary\": 50000,\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"department\": \"IT\",\n    \"role\": \"Software Engineer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/entity",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entity"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Get data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/entity/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entity",
+						"1"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Update data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"salary\": 90000,\n    \"role\": \"Data Engineer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/entity/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entity",
+						"1"
+					]
+				},
+				"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Updated data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/entity/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entity",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/entity/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entity",
+						"1"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:5000"
+		}
+	]
+}
