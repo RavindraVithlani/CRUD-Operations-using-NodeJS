@@ -7,7 +7,7 @@ A simple Node.js backend microservice for CRUD operations.
 1. Clone the repository.
 2. Install dependencies using `npm install`.
 3. The project root folder requires a `.env` file with the following variables.
-    PORT= database_port_number
+    PORT= port_number_for_node_application
     HOST= database_server_hostname
     USER= database_username
     PASSWORD= database_password
